@@ -179,9 +179,51 @@ export default function Home() {
         </div>
 
         {/* Calendar */}
-        <div className="flex-1 bg-gray-100 border border-gray-300 rounded-md h-[60%]">
-          <div className="h-full w-full flex justify-center items-center text-black">
-            Week View Calendar (Placeholder)
+        <div className="flex-1 bg-gray-100 border border-gray-300 rounded-md h-[60%] relative overflow-hidden">
+          <div className="grid grid-cols-[3rem_repeat(5,1fr)] h-full">
+            {/* Scrollable Days and Grid */}
+            <div className="col-span-6 overflow-auto relative no-scrollbar">
+              {/* Sticky Days Header */}
+              <div className="grid sticky top-0 bg-gray-100 z-10"
+                style={{
+                  gridTemplateColumns: "repeat(5, 1fr) 0.5fr",
+                }}
+              >
+                {["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", ""].map((day) => (
+                  <div key={day} className="text-center py-2 font-bold border-b border-gray-400">
+                    {day}
+                  </div>
+                ))}
+              </div>
+
+              {/* Scrollable Grid */}
+              <div className="relative">
+                {Array.from({ length: 26 }).map((_, timeIndex) => (
+                  <div key={timeIndex}>
+                    <div
+                      className={`absolute left-0 text-right right-0 ${
+                        timeIndex % 2 === 0 ? "border-t border-gray-400" : "border-t border-gray-300"
+                      }`}
+                      style={{ top: `${(timeIndex * 100) / 26}%`, right:"9.2%" }}
+                    / >
+                    <p className="absolute text-left right-0 pr-2 text-sm"
+                    style={{ top: `${(timeIndex * 100) / 26}%`, left:"91.8%", marginTop: "-8px"}}>
+                      {(timeIndex == 0 ? "" : ((timeIndex > 11 ? (Math.floor(7 + timeIndex * 0.5 - 12)) : (Math.floor(7 + timeIndex * 0.5))) < 10 ? "0" : "") + (timeIndex > 11 ? (Math.floor(7 + timeIndex * 0.5 - 12)) : (Math.floor(7 + timeIndex * 0.5))) + (timeIndex % 2 == 1 ? ":30" : ":00") + (timeIndex > 9 ? " PM" : " AM"))}
+                    </p>
+                  </div>
+                ))}
+                <div
+                  className="grid h-[800]"
+                  style={{
+                    gridTemplateColumns: "repeat(5, 1fr) 0.5fr",
+                  }}
+                >
+                  {Array.from({ length: 5 }).map((_, dayIndex) => (
+                    <div key={dayIndex} className="border-r border-gray-400" />
+                  ))}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
