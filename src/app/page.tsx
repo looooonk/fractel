@@ -2,6 +2,7 @@ import { FaGear } from "react-icons/fa6";
 import { BiSolidLeftArrow } from "react-icons/bi";
 import { BiSolidRightArrow } from "react-icons/bi";
 import { FaPlus } from "react-icons/fa";
+import { LuMenu } from "react-icons/lu";
 
 import { Course } from "../models/courseSchema";
 
@@ -137,6 +138,10 @@ const courses: Course[] = [
 const days = ["M", "T", "W", "R", "F"];
 
 export default function Home() {
+  let currentSemester = "Spring 2025";
+  let numSchedules = 1;
+  let curScheduleIndex = 1;
+
   const formatTime = (time: number): string => {
     const hours = Math.floor(time / 100);
     const minutes = time % 100;
@@ -148,20 +153,28 @@ export default function Home() {
   return (
     <div className="flex w-full h-screen bg-white p-5 space-x-5">
       {/* Calendar */}
-      <div className="flex-1 flex flex-col space-y-[3%]">
-        {/* Top Section with Gear Icon and Calendar Options */}
-        <div className="flex justify-between items-center h-[10%]">
-          {/* Gear Icon for Settings */}
+      <div className="flex-1 flex flex-col">
+        {/* Semester */}
+        <div className="flex items-center space-x-2 mb-2 text-lg font-bold">
+          <p>{currentSemester}</p>
+          <LuMenu className="text-black cursor-pointer text-base" />
+        </div>
+
+        {/* Top Section */}
+        <div className="flex justify-between items-center mb-4">
+          {/* Settings */}
           <div className="flex items-center">
-            <FaGear className="text-black cursor-pointer text-xl" />
+            <FaGear className="text-black cursor-pointer text-base" />
           </div>
 
           {/* Calendar Options */}
-          <div className="flex items-center space-x-2">
-            <BiSolidLeftArrow className="text-black cursor-pointer text-lg" />
-            <p className="text-black font-semibold">Schedule 1</p>
-            <BiSolidRightArrow className="text-black cursor-pointer text-lg" />
-            <FaPlus className="text-black cursor-pointer text-lg" />
+          <div className="flex items-center space-x-5">
+            <div className="flex items-center space-x-2">
+              <BiSolidLeftArrow className="text-black cursor-pointer text-base" />
+              <p className="text-black font-semibold">Schedule {curScheduleIndex} / {numSchedules}</p>
+              <BiSolidRightArrow className="text-black cursor-pointer text-base" />
+            </div>
+            <FaPlus className="text-black cursor-pointer text-base" />
           </div>
         </div>
 
@@ -196,7 +209,7 @@ export default function Home() {
                   {course.shortenedSubjectName} {course.courseNumber} {course.courseSelectionSpecifier}
                 </span>
               </h4>
-              <div className="flex justify-between mb-4">
+              <div className="flex justify-between mb-4 text-sm">
                 <p>{course.professor}</p>
                 <p className="text-gray-700 text-right">{course.creditHours} Credits</p>
               </div>
