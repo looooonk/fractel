@@ -23,16 +23,17 @@
 # This code is a modified version of a web scraper authored by Sarthak Mangla
 # https://github.com/unkn-wn/boilerclasses
 
-import argparse
+import time
 import json
+import tqdm
+import argparse
+
 from selenium import webdriver
 from selenium.webdriver.support import ui
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
-import time
-from tqdm import tqdm
 
 parser = argparse.ArgumentParser(description='which semester')
 parser.add_argument("-sem", default="Spring 2025", dest="sem", help="which semester (default: Spring 2025)")
@@ -145,12 +146,12 @@ for code in class_codes:
         except:
             continue
 
-        curr_td = curr_table.find_elements(By.TAG_NAME, "td")[-1]
-        sched_type = curr_table.find_elements(By.TAG_NAME, "td")[-2].text
+        curr_td       = curr_table.find_elements(By.TAG_NAME, "td")[-1]
+        sched_type    = curr_table.find_elements(By.TAG_NAME, "td")[-2].text
         date_range_td = curr_table.find_elements(By.TAG_NAME, "td")[-3].text
-        where_td = curr_table.find_elements(By.TAG_NAME, "td")[-4].text
-        days_td = curr_table.find_elements(By.TAG_NAME, "td")[-5].text
-        time_td = curr_table.find_elements(By.TAG_NAME, "td")[-6].text
+        where_td      = curr_table.find_elements(By.TAG_NAME, "td")[-4].text
+        days_td       = curr_table.find_elements(By.TAG_NAME, "td")[-5].text
+        time_td       = curr_table.find_elements(By.TAG_NAME, "td")[-6].text
 
         # only include primary instructor
         instructors = []
@@ -160,12 +161,12 @@ for code in class_codes:
                 instructors.append(tmp_instructors[j].split("(")[0].strip())
 
         class_struct["instructor"] = instructors
-        class_struct["crn"] = [curr_crn]
-        class_struct["sched"] = [sched_type]
+        class_struct["crn"]        = [curr_crn]
+        class_struct["sched"]      = [sched_type]
         class_struct["date_range"] = [date_range_td]
-        class_struct["where"] = [where_td]
-        class_struct["time"] = [time_td]
-        class_struct["days"] = [days_td]
+        class_struct["where"]      = [where_td]
+        class_struct["time"]       = [time_td]
+        class_struct["days"]       = [days_td]
         view_catalog = bodies[i].find_elements(By.TAG_NAME, 'a')[0]
         catalogLink = view_catalog.get_attribute('href')
         catalog_entries[curr_crn] = catalogLink
